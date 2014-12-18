@@ -19,12 +19,22 @@ class ApplicationSpec extends Specification {
       route(FakeRequest(GET, "/boum")) must beNone
     }
 
-    "render the index page" in new WithApplication{
+    "render the index page" in new WithApplication {
       val home = route(FakeRequest(GET, "/")).get
 
       status(home) must equalTo(OK)
-      contentType(home) must beSome.which(_ == "text/html")
-      contentAsString(home) must contain ("Your new application is ready.")
+      contentType(home) must beSome.which(_ == "text/plain")
+      contentAsString(home) must contain("Shapely")
+    }
+
+    "converts rdfs label to schema.org name" in new WithApplication {
+      val response = route(
+        FakeRequest(POST, "/")
+          .withBody("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . <http://example.com/ross> rdfs:label \"Ross\" .")
+      ).get
+
+      status(response) must equalTo(OK)
+      contentAsString(response) must contain("<http://example.com/ross> <http://schema.org/name> \"Ross\" .")
     }
   }
 }

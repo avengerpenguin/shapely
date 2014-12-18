@@ -18,3 +18,5 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.0.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.0.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0-M1")
+
+addSbtPlugin("org.netbeans.nbsbt" % "nbsbt-plugin" % "1.1.0")

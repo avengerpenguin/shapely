@@ -1,0 +1,19 @@
+@prefix r2r: <http://www4.wiwiss.fu-berlin.de/bizer/r2r/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbpedia: <http://dbpedia.org/ontology/> .
+@prefix movie: <http://data.linkedmdb.org/resource/movie/> .
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Made up Mapping publisher
+@prefix mp: <http://www4.wiwiss.fu-berlin.de/R2Rmappings/> .
+
+# Mappings from DBpedia to FOAF Person and rdfs:label (from DBpedia) to foaf:name
+
+mp:labelToNameMapping
+   a r2r:PropertyMapping ;
+   r2r:prefixDefinitions  "schema: <http://schema.org/>" ;
+   r2r:sourcePattern      "?SUBJ rdfs:label ?o" ;
+   r2r:targetPattern      "?SUBJ schema:name ?o" .
