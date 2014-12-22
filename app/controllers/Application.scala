@@ -16,20 +16,27 @@ object Application extends Controller {
 
   def transform = Action { request =>
     
-		val vocabulary = "@prefix schema: <http://schema.org/>" +
+		val vocabulary = "@prefix schema: <http://schema.org/> .\n" +
 		"(" +
-			"schema:name" +
+			"schema:name,\n" +
+      "schema:description,\n" +
+      "schema:thumbnailUrl,\n" +
+      "schema:image,\n" +
+      "schema:actor\n" +
 		")";
-		
+
+    val source = new StreamSource(request.body.asText.getOrElse(""))
+
     val enumerator = Enumerator.outputStream { os =>
 
       val output: NTriplesOutput = new NTriplesOutput(os)
 
       Mapper.transform(
-        new StreamSource(request),
+        source,
         output,
         Repository.createFileOrUriRepository("mappings.ttl"),
-        vocabulary)
+        vocabulary
+      )
 
       output.close()
 

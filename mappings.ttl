@@ -6,14 +6,28 @@
 @prefix movie: <http://data.linkedmdb.org/resource/movie/> .
 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dbpedia-owl:	<http://dbpedia.org/ontology/> .
 
 # Made up Mapping publisher
 @prefix mp: <http://www4.wiwiss.fu-berlin.de/R2Rmappings/> .
 
 # Mappings from DBpedia to FOAF Person and rdfs:label (from DBpedia) to foaf:name
 
-mp:labelToNameMapping
+mp:nameMapping
    a r2r:PropertyMapping ;
    r2r:prefixDefinitions  "schema: <http://schema.org/>" ;
    r2r:sourcePattern      "?SUBJ rdfs:label ?o" ;
    r2r:targetPattern      "?SUBJ schema:name ?o" .
+
+mp:descriptionMapping
+   a r2r:PropertyMapping ;
+   r2r:prefixDefinitions  "schema: <http://schema.org/>" ;
+   r2r:sourcePattern      "?SUBJ rdfs:comment ?o" ;
+   r2r:targetPattern      "?SUBJ schema:description ?o" .
+
+mp:thumbnailMapping
+   a r2r:PropertyMapping ;
+   r2r:prefixDefinitions  "schema: <http://schema.org/>" ;
+   r2r:prefixDefinitions  "dbpedia-owl:	<http://dbpedia.org/ontology/>" ;
+   r2r:sourcePattern      "?SUBJ dbpedia-owl:thumbnail ?o" ;
+   r2r:targetPattern      "?SUBJ schema:thumbnailUrl ?o" .

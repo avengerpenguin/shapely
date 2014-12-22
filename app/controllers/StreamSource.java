@@ -23,9 +23,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import de.fuberlin.wiwiss.r2r.ExportableSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.Charset;
 
 import play.api.mvc.AnyContent;
@@ -42,8 +40,9 @@ public class StreamSource implements ExportableSource {
 
     public StreamSource(final String stream) {
         model = ModelFactory.createDefaultModel();
+        final Reader reader = new StringReader(stream);
         model.read(
-                new ByteArrayInputStream(stream.getBytes(Charset.forName("UTF-8"))),
+                reader,
                 "http://example.com/", "TURTLE");
     }
 

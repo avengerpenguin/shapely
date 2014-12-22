@@ -5,6 +5,8 @@ import org.junit.runner._
 import play.api.test._
 import play.api.test.Helpers._
 
+import scala.io.Source
+
 /**
  * Add your spec here.
  * You can mock out a whole application including requests, plugins etc.
@@ -37,4 +39,38 @@ class ApplicationSpec extends Specification {
       contentAsString(response) must contain("<http://example.com/ross> <http://schema.org/name> \"Ross\" .")
     }
   }
+
+  "finds schema.org/name for DBPedia entity" in new WithApplication {
+
+    val response = route(
+      FakeRequest(POST, "/")
+        .withBody(scala.io.Source.fromFile("Kevin_Bacon.n3").mkString)
+    ).get
+
+    status(response) must equalTo(OK)
+    contentAsString(response) must contain("<http://dbpedia.org/resource/Kevin_Bacon> <http://schema.org/name> \"Kevin Bacon\"@en .")
+  }
+
+  "finds schema.org/description for DBPedia entity" in new WithApplication {
+
+    val response = route(
+      FakeRequest(POST, "/")
+        .withBody(scala.io.Source.fromFile("Kevin_Bacon.n3").mkString)
+    ).get
+
+    status(response) must equalTo(OK)
+    contentAsString(response) must contain("Kevin Norwood Bacon")
+  }
+
+  "finds schema.org/thumbnailUrl for DBPedia entity" in new WithApplication {
+
+    val response = route(
+      FakeRequest(POST, "/")
+        .withBody(scala.io.Source.fromFile("Kevin_Bacon.n3").mkString)
+    ).get
+
+    status(response) must equalTo(OK)
+    contentAsString(response) must contain("<http://dbpedia.org/resource/Kevin_Bacon> <http://schema.org/thumbnailUrl> <http://commons.wikimedia.org/wiki/Special:FilePath/Kevin_Bacon_Comic-Con_2012.jpg?width=300> .")
+  }
+
 }

@@ -20,5 +20,7 @@ class IntegrationSpec extends Specification {
 
       browser.pageSource must contain("Shapely")
     }
+
   }
+
 }
